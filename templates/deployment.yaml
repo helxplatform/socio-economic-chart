@@ -34,16 +34,90 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+            {{ if .Values.connexion.server }}
+            - name: CONNEXION_SERVER
+              valueFrom:
+                secretKeyRef:
+                  key: CONNEXION_SERVER
+                  name: {{ include "social.fullname" . }}-env
+            {{- end }}
+            {{ if .Values.connexion.debug }}
+            - name: CONNEXION_DEBUG
+              valueFrom:
+                secretKeyRef:
+                  key: CONNEXION_DEBUG
+                  name: {{ include "social.fullname" . }}-env
+            {{- end }}
+            {{ if .Values.connexion.port }}
+            - name: CONNEXION_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: CONNEXION_PORT
+                  name: {{ include "social.fullname" . }}-env
+            {{- end }}
+            {{ if .Values.connexion.keyfile }}
+            - name: CONNEXION_KEY_FILE
+              valueFrom:
+                secretKeyRef:
+                  key: CONNEXION_KEY_FILE
+                  name: {{ include "social.fullname" . }}-env
+            {{- end }}
+            {{ if .Values.connexion.certfile }}
+            - name: CONNEXION_CERT_FILE
+              valueFrom:
+                secretKeyRef:
+                  key: CONNEXION_CERT_FILE
+                  name: {{ include "social.fullname" . }}-env
+            {{- end }}
+            {{ if .Values.sysPath.exposures }}
+            - name: EXPOSURES
+              valueFrom:
+                secretKeyRef:
+                  key: EXPOSURES
+                  name: {{ include "social.fullname" . }}-env
+            {{- end }}
+            {{ if .Values.sysPath.controllers }}
+            - name: CONTROLLERS
+              valueFrom:
+                secretKeyRef:
+                  key: CONTROLLERS
+                  name: {{ include "social.fullname" . }}-env
+            {{- end }}
+            {{ if .Values.postgres.host }}
             - name: POSTGRES_HOST
-              value: postgresql
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_HOST
+                  name: {{ include "social.fullname" . }}-env
+            {{- end }}
+            {{ if .Values.postgres.port }}
             - name: POSTGRES_PORT
-              value: "5432"
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_PORT
+                  name: {{ include "social.fullname" . }}-env
+            {{- end }}
+            {{ if .Values.postgres.database }}
             - name: POSTGRES_DATABASE
-              value: database
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_DATABASE
+                  name: {{ include "social.fullname" . }}-env
+            {{- end }}
+            {{ if .Values.postgres.username }}
             - name: POSTGRES_USERNAME
-              value: username
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_USERNAME
+                  name: {{ include "social.fullname" . }}-env
+            {{- end }}
+            {{ if .Values.postgres.password }}
             - name: POSTGRES_PASSWORD
-              value: password
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_PASSWORD
+                  name: {{ include "social.fullname" . }}-env
+            {{- end }}
           ports:
             - name: http
               containerPort: 8080

@@ -80,3 +80,21 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+connexion:
+  server: hello
+  debug: "True"
+  port: "5000"
+  keyfile:
+  certfile:
+
+sysPath:
+  exposures: "./exposures"
+  controllers: "./controllers"
+
+postgres:
+  host: "FQDN_OR_IP"
+  port: "5432"
+  database: "database"
+  username: "username"
+  password: "password"
